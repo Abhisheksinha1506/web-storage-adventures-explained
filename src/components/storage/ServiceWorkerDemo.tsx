@@ -6,7 +6,7 @@ import InteractiveDemo from '../InteractiveDemo';
 import CodeSnippet from '../CodeSnippet';
 import { Button } from '@/components/ui/button';
 
-const ServiceWorkerDemo = () => {
+const ServiceWorkerDemo = ({ expanded = false, onExpand, onCollapse, summaryMode = false }) => {
   const [swSupported, setSwSupported] = useState(false);
   const [swActive, setSwActive] = useState(false);
   const [swStatus, setSwStatus] = useState('Checking...');
@@ -59,6 +59,13 @@ const ServiceWorkerDemo = () => {
       title="Service Workers" 
       icon={<Cloud className="h-6 w-6 text-blue-600" />}
       color="#0EA5E9"
+      expanded={expanded}
+      onExpand={onExpand}
+      onCollapse={onCollapse}
+      summaryMode={summaryMode}
+      summary={
+        <p>Service Workers act as proxy servers that sit between web applications, the browser, and the network, enabling features like offline functionality and push notifications.</p>
+      }
     >
       <p className="mb-4">
         A Service Worker is like having a personal assistant for your website that works behind the scenes. This assistant stays active even when you close the website and can handle tasks like delivering notifications, syncing data, and most importantly, letting you use the website even when you're offline!

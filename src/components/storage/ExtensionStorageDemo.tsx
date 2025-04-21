@@ -5,7 +5,7 @@ import StorageCard from '../StorageCard';
 import InteractiveDemo from '../InteractiveDemo';
 import CodeSnippet from '../CodeSnippet';
 
-const ExtensionStorageDemo = () => {
+const ExtensionStorageDemo = ({ expanded = false, onExpand, onCollapse, summaryMode = false }) => {
   const demoComponent = (
     <div className="p-4 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg">
       <div className="flex flex-col items-center justify-center min-h-[200px] text-center">
@@ -25,6 +25,13 @@ const ExtensionStorageDemo = () => {
       title="Extension Storage" 
       icon={<BookOpen className="h-6 w-6 text-purple-600" />}
       color="#D6BCFA"
+      expanded={expanded}
+      onExpand={onExpand}
+      onCollapse={onCollapse}
+      summaryMode={summaryMode}
+      summary={
+        <p>Extension Storage provides browser extensions with their own private storage space, allowing them to store data locally or sync it across devices.</p>
+      }
     >
       <p className="mb-4">
         Extension Storage is like a private vault just for browser extensions. It's storage that only a specific extension can access, with special powers to save data and sync it across devices where the extension is installed.

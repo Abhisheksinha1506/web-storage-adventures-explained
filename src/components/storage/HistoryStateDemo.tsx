@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { History } from 'lucide-react';
 import StorageCard from '../StorageCard';
 import InteractiveDemo from '../InteractiveDemo';
@@ -7,7 +7,7 @@ import CodeSnippet from '../CodeSnippet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-const HistoryStateDemo = () => {
+const HistoryStateDemo = ({ expanded = false, onExpand, onCollapse, summaryMode = false }) => {
   const [stateData, setStateData] = useState('');
   const [currentState, setCurrentState] = useState<any>(null);
   
@@ -36,14 +36,14 @@ const HistoryStateDemo = () => {
   };
 
   // Listen for popstate events
-  useState(() => {
+  useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
       setCurrentState(event.state);
     };
     
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  });
+  }, []);
   
   const demoComponent = (
     <div className="space-y-4">
@@ -85,6 +85,13 @@ const HistoryStateDemo = () => {
       title="History State"
       icon={<History className="h-6 w-6 text-indigo-600" />}
       color="#8B5CF6"
+      expanded={expanded}
+      onExpand={onExpand}
+      onCollapse={onCollapse}
+      summaryMode={summaryMode}
+      summary={
+        <p>The History API allows web applications to manipulate browser history and store state data without page reloads, perfect for single-page applications.</p>
+      }
     >
       <p className="mb-4">
         The History State is like a magical bookmark that not only remembers what page you were on, but also remembers extra information about what you were doing there - without having to reload anything.
