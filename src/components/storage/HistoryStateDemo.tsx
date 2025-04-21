@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { History } from 'lucide-react';
 import StorageCard from '../StorageCard';
-import InteractiveDemo from '../InteractiveDemo';
 import CodeSnippet from '../CodeSnippet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -45,41 +44,6 @@ const HistoryStateDemo = ({ expanded = false, onExpand, onCollapse, summaryMode 
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
   
-  const demoComponent = (
-    <div className="space-y-4">
-      <div className="flex gap-2">
-        <Input
-          placeholder="State data"
-          value={stateData}
-          onChange={(e) => setStateData(e.target.value)}
-          className="flex-1"
-        />
-        <Button onClick={pushState} variant="outline">Push State</Button>
-        <Button onClick={replaceState} variant="outline">Replace State</Button>
-      </div>
-      
-      <div className="flex gap-2 mt-4">
-        <Button onClick={goBack} variant="secondary" size="sm">← Back</Button>
-        <Button onClick={goForward} variant="secondary" size="sm">Forward →</Button>
-      </div>
-      
-      <div className="mt-4 p-3 bg-gray-50 rounded-md">
-        <h4 className="text-sm font-medium mb-2">Current State:</h4>
-        {currentState ? (
-          <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
-            {JSON.stringify(currentState, null, 2)}
-          </pre>
-        ) : (
-          <p className="text-sm text-gray-500">No state set yet.</p>
-        )}
-      </div>
-      
-      <p className="text-xs text-gray-500 mt-2">
-        Note: Use the browser's back/forward buttons or the buttons above to navigate history states.
-      </p>
-    </div>
-  );
-
   return (
     <StorageCard
       title="History State"
@@ -96,12 +60,39 @@ const HistoryStateDemo = ({ expanded = false, onExpand, onCollapse, summaryMode 
       <p className="mb-4">
         The History State is like a magical bookmark that not only remembers what page you were on, but also remembers extra information about what you were doing there - without having to reload anything.
       </p>
-      
-      <InteractiveDemo
-        title="How History State Works"
-        demoComponent={demoComponent}
-        color="#8B5CF6"
-      >
+
+      <div className="space-y-4">
+        <div className="flex gap-2">
+          <Input
+            placeholder="State data"
+            value={stateData}
+            onChange={(e) => setStateData(e.target.value)}
+            className="flex-1"
+          />
+          <Button onClick={pushState} variant="outline">Push State</Button>
+          <Button onClick={replaceState} variant="outline">Replace State</Button>
+        </div>
+        
+        <div className="flex gap-2 mt-4">
+          <Button onClick={goBack} variant="secondary" size="sm">← Back</Button>
+          <Button onClick={goForward} variant="secondary" size="sm">Forward →</Button>
+        </div>
+        
+        <div className="mt-4 p-3 bg-gray-50 rounded-md">
+          <h4 className="text-sm font-medium mb-2">Current State:</h4>
+          {currentState ? (
+            <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
+              {JSON.stringify(currentState, null, 2)}
+            </pre>
+          ) : (
+            <p className="text-sm text-gray-500">No state set yet.</p>
+          )}
+        </div>
+        
+        <p className="text-xs text-gray-500 mt-2">
+          Note: Use the browser's back/forward buttons or the buttons above to navigate history states.
+        </p>
+
         <ul className="list-disc pl-5 space-y-2 mb-4">
           <li>Allows websites to store data in the browser's navigation history</li>
           <li>Works with browser forward/back buttons</li>
@@ -132,7 +123,7 @@ window.history.replaceState(
 window.addEventListener('popstate', (event) => {
   console.log(event.state); // Retrieve the state object
 });`} />
-      </InteractiveDemo>
+      </div>
     </StorageCard>
   );
 };
