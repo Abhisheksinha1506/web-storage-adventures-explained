@@ -12,26 +12,72 @@ import InterestGroupDemo from '@/components/storage/InterestGroupDemo';
 import StorageBucketDemo from '@/components/storage/StorageBucketDemo';
 import ExtensionStorageDemo from '@/components/storage/ExtensionStorageDemo';
 
+// Each card will have a unique id; let's define their structures:
+const storageDemos = [
+  {
+    id: "localstorage",
+    component: LocalStorageDemo,
+  },
+  {
+    id: "cookies",
+    component: CookiesDemo,
+  },
+  {
+    id: "history",
+    component: HistoryStateDemo,
+  },
+  {
+    id: "indexeddb",
+    component: IndexedDBDemo,
+  },
+  {
+    id: "serviceworker",
+    component: ServiceWorkerDemo,
+  },
+  {
+    id: "cache",
+    component: CacheStorageDemo,
+  },
+  {
+    id: "sharedstorage",
+    component: SharedStorageDemo,
+  },
+  {
+    id: "interestgroup",
+    component: InterestGroupDemo,
+  },
+  {
+    id: "storagebucket",
+    component: StorageBucketDemo,
+  },
+  {
+    id: "extensionstorage",
+    component: ExtensionStorageDemo,
+  },
+];
+
 const Index = () => {
+  // Only allow one expanded at a time
+  const [expandedId, setExpandedId] = useState<string | null>('localstorage');
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
       <StorageHeader />
-      
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <LocalStorageDemo />
-          <CookiesDemo />
-          <HistoryStateDemo />
-          <IndexedDBDemo />
-          <ServiceWorkerDemo />
-          <CacheStorageDemo />
-          <SharedStorageDemo />
-          <InterestGroupDemo />
-          <StorageBucketDemo />
-          <ExtensionStorageDemo />
+
+      <div className="container mx-auto px-2 py-6 md:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {storageDemos.map(({ id, component: Component }) => (
+            <Component
+              expanded={expandedId === id}
+              onExpand={() => setExpandedId(id)}
+              onCollapse={() => setExpandedId(null)}
+              key={id}
+              summaryMode={expandedId !== id}
+            />
+          ))}
         </div>
       </div>
-      
+
       <footer className="mt-12 py-8 bg-gray-100 text-center text-gray-600">
         <div className="container mx-auto px-4">
           <p className="text-sm">
