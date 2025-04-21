@@ -57,8 +57,8 @@ const storageDemos = [
 ];
 
 const Index = () => {
-  // Only allow one expanded at a time
-  const [expandedId, setExpandedId] = useState<string | null>('localstorage');
+  // Only allow one expanded at a time, and no card is expanded by default
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
