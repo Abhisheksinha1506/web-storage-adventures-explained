@@ -1,25 +1,9 @@
 
-import { useState } from 'react';
 import { BookOpen } from 'lucide-react';
 import StorageCard from '../StorageCard';
-import InteractiveDemo from '../InteractiveDemo';
 import CodeSnippet from '../CodeSnippet';
 
 const ExtensionStorageDemo = ({ expanded = false, onExpand, onCollapse, summaryMode = false }) => {
-  const demoComponent = (
-    <div className="p-4 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg">
-      <div className="flex flex-col items-center justify-center min-h-[200px] text-center">
-        <div className="text-purple-800 mb-4">
-          <BookOpen className="h-12 w-12 mx-auto mb-2" />
-          <p className="font-medium">Extension Storage API</p>
-        </div>
-        <p className="text-sm text-gray-500 max-w-md">
-          Extension Storage is only available to browser extensions and can't be demonstrated in a regular web page. It provides dedicated storage mechanisms for browser extensions.
-        </p>
-      </div>
-    </div>
-  );
-
   return (
     <StorageCard 
       title="Extension Storage" 
@@ -37,11 +21,8 @@ const ExtensionStorageDemo = ({ expanded = false, onExpand, onCollapse, summaryM
         Extension Storage is like a private vault just for browser extensions. It's storage that only a specific extension can access, with special powers to save data and sync it across devices where the extension is installed.
       </p>
       
-      <InteractiveDemo 
-        title="How Extension Storage Works" 
-        demoComponent={demoComponent}
-        color="#D6BCFA"
-      >
+      <div className="prose max-w-none">
+        <h3 className="text-lg font-semibold mb-2">How Extension Storage Works</h3>
         <ul className="list-disc pl-5 space-y-2 mb-4">
           <li>Available only to browser extensions, not regular websites</li>
           <li>Provides both local and synced storage options</li>
@@ -99,7 +80,7 @@ chrome.storage.local.remove('temporaryData', function() {
 chrome.storage.local.getBytesInUse(null, function(bytesUsed) {
   console.log(\`Using \${bytesUsed} bytes of storage\`);
 });`} />
-      </InteractiveDemo>
+      </div>
     </StorageCard>
   );
 };
