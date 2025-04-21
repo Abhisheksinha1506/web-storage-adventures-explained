@@ -1,40 +1,38 @@
 
-import { useState } from 'react';
 import { Users } from 'lucide-react';
 import StorageCard from '../StorageCard';
-import InteractiveDemo from '../InteractiveDemo';
 import CodeSnippet from '../CodeSnippet';
 
-const InterestGroupDemo = () => {
-  const demoComponent = (
-    <div className="p-4 bg-gradient-to-br from-fuchsia-50 to-purple-50 rounded-lg">
-      <div className="flex flex-col items-center justify-center min-h-[200px] text-center">
-        <div className="text-purple-800 mb-4">
-          <Users className="h-12 w-12 mx-auto mb-2" />
-          <p className="font-medium">Interest Group API</p>
-        </div>
-        <p className="text-sm text-gray-500 max-w-md">
-          Interest Groups (part of the Privacy Sandbox) can't be directly demonstrated in this interface as they require special browser configurations and are primarily used for privacy-preserving ad targeting.
-        </p>
-      </div>
-    </div>
-  );
+const SUMMARY_TEXT = "Interest Groups are like private clubs in your browser based on what you like, helping show relevant ads without tracking you across websites.";
 
+const InterestGroupDemo = ({
+  expanded = false,
+  onExpand,
+  onCollapse,
+  summaryMode = false,
+}: {
+  expanded?: boolean;
+  onExpand?: () => void;
+  onCollapse?: () => void;
+  summaryMode?: boolean;
+}) => {
   return (
     <StorageCard 
       title="Interest Groups" 
       icon={<Users className="h-6 w-6 text-purple-600" />}
       color="#D946EF"
+      expanded={expanded}
+      onExpand={onExpand}
+      onCollapse={onCollapse}
+      summaryMode={summaryMode}
+      summary={SUMMARY_TEXT}
     >
       <p className="mb-4">
         Interest Groups are like private clubs in your browser. Websites can ask you to join their "club" based on your interests, and then later show you relevant ads without tracking you across the internet or sharing your personal details.
       </p>
       
-      <InteractiveDemo 
-        title="How Interest Groups Work" 
-        demoComponent={demoComponent}
-        color="#D946EF"
-      >
+      <div className="prose max-w-none mb-4">
+        <h3 className="text-lg font-semibold mb-2">How Interest Groups Work</h3>
         <ul className="list-disc pl-5 space-y-2 mb-4">
           <li>Part of the Privacy Sandbox initiative (replacing third-party cookies)</li>
           <li>Allows browsers to store user interests locally</li>
@@ -46,8 +44,9 @@ const InterestGroupDemo = () => {
         <p className="mb-4">
           Interest Groups represent a major shift in how online advertising works, moving from cross-site tracking to privacy-preserving targeting that keeps user data on their device.
         </p>
+      </div>
 
-        <CodeSnippet code={`// On an advertiser's website, a user shows interest in running shoes
+      <CodeSnippet code={`// On an advertiser's website, a user shows interest in running shoes
 navigator.joinAdInterestGroup({
   owner: 'https://shoes-advertiser.example',
   name: 'running-shoes-fans',
@@ -85,7 +84,6 @@ navigator.runAdAuction(auctionConfig).then(auctionResult => {
     document.body.appendChild(adFrame);
   }
 });`} />
-      </InteractiveDemo>
     </StorageCard>
   );
 };

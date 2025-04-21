@@ -27,8 +27,14 @@ const StorageCard = ({
   onCollapse,
   summaryMode = false,
 }: StorageCardProps) => {
-  // When collapsed (summaryMode), show summary only, and a "Click to learn more"
-  // When expanded, show full children and a "Click to collapse"
+  const handleClick = () => {
+    if (expanded) {
+      onCollapse?.();
+    } else {
+      onExpand?.();
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -45,7 +51,7 @@ const StorageCard = ({
         transition: "all 0.4s cubic-bezier(.5,.1,0,1)",
       }}
       tabIndex={0}
-      onClick={() => (expanded ? onCollapse?.() : onExpand?.())}
+      onClick={handleClick}
       aria-expanded={expanded}
       role="button"
     >

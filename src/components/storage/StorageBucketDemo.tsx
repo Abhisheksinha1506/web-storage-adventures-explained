@@ -1,40 +1,38 @@
 
-import { useState } from 'react';
 import { Folder } from 'lucide-react';
 import StorageCard from '../StorageCard';
-import InteractiveDemo from '../InteractiveDemo';
 import CodeSnippet from '../CodeSnippet';
 
-const StorageBucketDemo = () => {
-  const demoComponent = (
-    <div className="p-4 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-lg">
-      <div className="flex flex-col items-center justify-center min-h-[200px] text-center">
-        <div className="text-amber-800 mb-4">
-          <Folder className="h-12 w-12 mx-auto mb-2" />
-          <p className="font-medium">Storage Bucket API</p>
-        </div>
-        <p className="text-sm text-gray-500 max-w-md">
-          The Storage Bucket API is a newer proposal that can't be fully demonstrated here, as browser support is limited. It aims to provide more granular control over how data is stored and expired.
-        </p>
-      </div>
-    </div>
-  );
+const SUMMARY_TEXT = "Storage Buckets are like organizing your browser's storage into separate, labeled containers with their own expiration rules.";
 
+const StorageBucketDemo = ({
+  expanded = false,
+  onExpand,
+  onCollapse,
+  summaryMode = false,
+}: {
+  expanded?: boolean;
+  onExpand?: () => void;
+  onCollapse?: () => void;
+  summaryMode?: boolean;
+}) => {
   return (
     <StorageCard 
       title="Storage Buckets" 
       icon={<Folder className="h-6 w-6 text-amber-600" />}
       color="#FEC6A1"
+      expanded={expanded}
+      onExpand={onExpand}
+      onCollapse={onCollapse}
+      summaryMode={summaryMode}
+      summary={SUMMARY_TEXT}
     >
       <p className="mb-4">
         Storage Buckets are like organizing your browser's storage into separate, labeled containers. Instead of throwing everything into one big box, each container has its own rules about how long to keep stuff and when to clean up.
       </p>
       
-      <InteractiveDemo 
-        title="How Storage Buckets Work" 
-        demoComponent={demoComponent}
-        color="#FEC6A1"
-      >
+      <div className="prose max-w-none mb-4">
+        <h3 className="text-lg font-semibold mb-2">How Storage Buckets Work</h3>
         <ul className="list-disc pl-5 space-y-2 mb-4">
           <li>Organizes storage into separate "buckets" with different expiration policies</li>
           <li>Provides more granular control over storage quotas</li>
@@ -46,8 +44,9 @@ const StorageBucketDemo = () => {
         <p className="mb-4">
           Storage Buckets are especially useful for large applications with different components that have varying storage needs and lifetimes.
         </p>
+      </div>
 
-        <CodeSnippet code={`// Creating a storage bucket
+      <CodeSnippet code={`// Creating a storage bucket
 // Note: This is a newer API with limited browser support
 if ('storageBuckets' in navigator) {
   // Open or create a bucket
@@ -94,7 +93,6 @@ navigator.storageBuckets.open('session-data', {
     inactivity: 60 * 60 * 1000
   }
 });`} />
-      </InteractiveDemo>
     </StorageCard>
   );
 };

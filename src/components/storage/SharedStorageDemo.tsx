@@ -1,40 +1,38 @@
 
-import { useState } from 'react';
 import { Users } from 'lucide-react';
 import StorageCard from '../StorageCard';
-import InteractiveDemo from '../InteractiveDemo';
 import CodeSnippet from '../CodeSnippet';
 
-const SharedStorageDemo = () => {
-  const demoComponent = (
-    <div className="p-4 bg-gradient-to-br from-sky-50 to-indigo-50 rounded-lg">
-      <div className="flex flex-col items-center justify-center min-h-[200px] text-center">
-        <div className="text-blue-800 mb-4">
-          <Users className="h-12 w-12 mx-auto mb-2" />
-          <p className="font-medium">Shared Storage API</p>
-        </div>
-        <p className="text-sm text-gray-500 max-w-md">
-          The Shared Storage API can't be directly demonstrated in this interface as it requires special browser permissions and is primarily used for cross-site data sharing in controlled ways.
-        </p>
-      </div>
-    </div>
-  );
+const SUMMARY_TEXT = "Shared Storage is like a special vault that different websites can access, but with strict rules about what they can see and do.";
 
+const SharedStorageDemo = ({
+  expanded = false,
+  onExpand,
+  onCollapse,
+  summaryMode = false,
+}: {
+  expanded?: boolean;
+  onExpand?: () => void;
+  onCollapse?: () => void;
+  summaryMode?: boolean;
+}) => {
   return (
     <StorageCard 
       title="Shared Storage" 
       icon={<Users className="h-6 w-6 text-blue-600" />}
       color="#33C3F0"
+      expanded={expanded}
+      onExpand={onExpand}
+      onCollapse={onCollapse}
+      summaryMode={summaryMode}
+      summary={SUMMARY_TEXT}
     >
       <p className="mb-4">
         Shared Storage is like a special vault that different websites can access, but with strict rules about what they can see and what they can do with the information inside. It's designed to let websites work together while protecting user privacy.
       </p>
       
-      <InteractiveDemo 
-        title="How Shared Storage Works" 
-        demoComponent={demoComponent}
-        color="#33C3F0"
-      >
+      <div className="prose max-w-none mb-4">
+        <h3 className="text-lg font-semibold mb-2">How Shared Storage Works</h3>
         <ul className="list-disc pl-5 space-y-2 mb-4">
           <li>Allows limited cross-site data sharing (across different domains)</li>
           <li>Provides privacy-preserving ways to share information</li>
@@ -46,8 +44,9 @@ const SharedStorageDemo = () => {
         <p className="mb-4">
           Unlike other storage mechanisms, Shared Storage has strict limitations on how data can be extracted, focusing on aggregated information rather than individual user data.
         </p>
+      </div>
 
-        <CodeSnippet code={`// Accessing the shared storage
+      <CodeSnippet code={`// Accessing the shared storage
 // This would typically be used by advertisers or analytics services
 if ('sharedStorage' in window) {
   // Writing data to shared storage
@@ -86,7 +85,6 @@ class FrequencyCappingSelectURLOperation {
 }
 
 register('frequency-capping', FrequencyCappingSelectURLOperation);`} />
-      </InteractiveDemo>
     </StorageCard>
   );
 };
