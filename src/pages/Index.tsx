@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import StorageHeader from '@/components/StorageHeader';
 import LocalStorageDemo from '@/components/storage/LocalStorageDemo';
@@ -60,6 +60,14 @@ const storageDemos = [
 const Index = () => {
   // Only allow one expanded at a time, and no card is expanded by default
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  
+  const handleExpand = useCallback((id: string) => {
+    setExpandedId(id);
+  }, []);
+  
+  const handleCollapse = useCallback(() => {
+    setExpandedId(null);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
@@ -74,8 +82,8 @@ const Index = () => {
           {storageDemos.map(({ id, component: Component }) => (
             <Component
               expanded={expandedId === id}
-              onExpand={() => setExpandedId(id)}
-              onCollapse={() => setExpandedId(null)}
+              onExpand={() => handleExpand(id)}
+              onCollapse={handleCollapse}
               key={id}
               summaryMode={expandedId !== id}
             />

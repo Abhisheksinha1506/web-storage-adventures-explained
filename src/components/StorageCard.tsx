@@ -1,5 +1,5 @@
 
-import { ReactNode } from 'react';
+import { ReactNode, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
 interface StorageCardProps {
@@ -27,6 +27,8 @@ const StorageCard = ({
   onCollapse,
   summaryMode = false,
 }: StorageCardProps) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
   const handleClick = () => {
     if (expanded) {
       onCollapse?.();
@@ -35,8 +37,25 @@ const StorageCard = ({
     }
   };
 
+  // Handle clicks outside the component
+  useEffect(() => {
+    if (!expanded) return; // Only listen when expanded
+
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (cardRef.current && !cardRef.current.contains(event.target as Node)) {
+        onCollapse?.();
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [expanded, onCollapse]);
+
   return (
     <div
+      ref={cardRef}
       className={cn(
         "storage-card animate-fade-in cursor-pointer flex flex-col justify-between outline-none",
         expanded
